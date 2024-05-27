@@ -7,7 +7,7 @@ const expresiones = {
   documento: /^\d{7,11}$/, // Solo números entre 7 y 11 dígitos
   contrasena: /^.{8,12}$/, // Entre 8 y 12 caracteres
   nombre: /^[a-zA-ZÀ-ÿ\s]{10,40}$/, // Solo letras y espacios
-  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, // Correo electrónico válido
+  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,}$/, // Correo electrónico válido
   ficha: /^\d+$/ // Solo números
 };
 
@@ -51,9 +51,23 @@ const validarCampo = (expresion, input, campo) => {
   }
 };
 
+const limitarEmail = (e) => {
+  const email = e.target.value;
+  const domainPattern = /\.(com|edu\.co)$/; // Ajusta el patrón de dominios según los requerimientos
+
+  // Encuentra la posición del dominio
+  const domainMatch = email.match(domainPattern);
+  if (domainMatch && email.length > domainMatch.index + domainMatch[0].length) {
+    e.target.value = email.slice(0, domainMatch.index + domainMatch[0].length);
+  }
+};
+
 inputs.forEach((input) => {
   input.addEventListener("keyup", validarFormulario);
   input.addEventListener("blur", validarFormulario);
+  if (input.name === "email") {
+    input.addEventListener("input", limitarEmail);
+  }
 });
 
 formulario.addEventListener("submit", (e) => {
