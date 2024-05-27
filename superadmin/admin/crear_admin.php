@@ -211,6 +211,7 @@ $tiposdoc = $tip_docQuery->fetchAll(PDO::FETCH_ASSOC);
                                             <br>
                                             <br>
                                             <button type="submit" class="btn btn-success" style="margin: auto;">Registrarme</button>
+                                            <a href="lista_admin.php" class="btn btn-danger">Volver</a>
                                 </form>
                             </div>
                         </div>
