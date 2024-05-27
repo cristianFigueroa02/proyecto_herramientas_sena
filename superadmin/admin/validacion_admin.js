@@ -5,7 +5,7 @@ const expresiones = {
     documento: /^\d{6,11}$/, // Solo números entre 6 y 11 dígitos
     contrasena: /^.{8,12}$/, // Entre 8 y 12 caracteres
     nombre: /^[a-zA-ZÀ-ÿ\s]{10,40}$/, // Solo letras y espacios
-    email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ // Correo electrónico válido
+    email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,}$/ // Correo electrónico válido
 };
 
 const campos = {
@@ -16,31 +16,31 @@ const campos = {
 };
 
 const validarFormulario = (e) => {
-    switch (e.target.name) {
-        case "documento":
-            validarCampo(expresiones.documento, e.target, "documento");
-            break;
-        case "contrasena":
-            validarCampo(expresiones.contrasena, e.target, "contrasena");
-            break;
-        case "nombre":
-            validarCampo(expresiones.nombre, e.target, "nombre");
-            break;
-        case "email":
-            validarCampo(expresiones.email, e.target, "email");
-            break;
+    const campo = e.target.name;
+    const valor = e.target.value;
+
+    if (expresiones[campo]) {
+        if (expresiones[campo].test(valor)) {
+            document.getElementById(`grupo__${campo}`).classList.remove("formulario__grupo-incorrecto");
+            document.getElementById(`grupo__${campo}`).classList.add("formulario__grupo-correcto");
+            campos[campo] = true;
+        } else {
+            document.getElementById(`grupo__${campo}`).classList.add("formulario__grupo-incorrecto");
+            document.getElementById(`grupo__${campo}`).classList.remove("formulario__grupo-correcto");
+            campos[campo] = false;
+        }
+    }
+
+    if (campo === "email") {
+        validarEmailCompleto(valor);
     }
 };
 
-const validarCampo = (expresion, input, campo) => {
-    if (expresion.test(input.value)) {
-        document.getElementById(`grupo__${campo}`).classList.remove("formulario__grupo-incorrecto");
-        document.getElementById(`grupo__${campo}`).classList.add("formulario__grupo-correcto");
-        campos[campo] = true;
-    } else {
-        document.getElementById(`grupo__${campo}`).classList.add("formulario__grupo-incorrecto");
-        document.getElementById(`grupo__${campo}`).classList.remove("formulario__grupo-correcto");
-        campos[campo] = false;
+const validarEmailCompleto = (email) => {
+    if (!expresiones.email.test(email)) {
+        document.getElementById(`grupo__email`).classList.add("formulario__grupo-incorrecto");
+        document.getElementById(`grupo__email`).classList.remove("formulario__grupo-correcto");
+        campos["email"] = false;
     }
 };
 
