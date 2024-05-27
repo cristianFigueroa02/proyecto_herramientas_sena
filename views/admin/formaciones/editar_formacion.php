@@ -111,11 +111,11 @@ if (isset($_GET['id'])) {
                             <label for="nombre">Ficha:</label>
                             <input type="number" class="form-control" id="ficha" name="ficha" value="<?php echo $herramientas['id_formacion']; ?>" required>
                         </div>
-<div class="form-group">
-    <label for="nombre">Nombre de la herramienta:</label>
-    <input type="text" class="form-control" value="<?php echo $herramientas['formacion']; ?>" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
-</div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre de la herramienta:</label>
+                            <input type="text" class="form-control" value="<?php echo $herramientas['formacion']; ?>" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
+                            <small>El nombre no debe contener caracteres especiales.</small>
+                        </div>
 
                         <div class="form-group">
                             <label for="jornada">Jornada:</label>

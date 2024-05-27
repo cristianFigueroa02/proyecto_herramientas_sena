@@ -16,7 +16,7 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
     $validar->execute([$nombre]);
     $fila1 = $validar->fetch();
 
-    if ($nombre == "" ) {
+    if ($nombre == "") {
         echo '<script> alert ("EXISTEN DATOS VACIOS");</script>';
         echo '<script> window.location="crear_tipo.php"</script>';
     } else if ($fila1) {
@@ -25,7 +25,6 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
     } else {
         $insertsql = $conectar->prepare("INSERT INTO categoria(categoria) VALUES (?)");
         $insertsql->execute([$nombre]);
-
     }
 }
 ?>
@@ -89,11 +88,11 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
         <div class="container mt-5">
             <h2>Crear tipo de herramienta</h2>
             <form method="POST" enctype="multipart/form-data">
-<div class="form-group">
-    <label for="nombre">Nombre del tipo de herramienta:</label>
-    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
-</div>
+                <div class="form-group">
+                    <label for="nombre">Nombre del tipo de herramienta:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
+                    <small>El nombre no debe contener caracteres especiales.</small>
+                </div>
 
 
                 <input type="submit" class="btn btn-success" value="Registrar">

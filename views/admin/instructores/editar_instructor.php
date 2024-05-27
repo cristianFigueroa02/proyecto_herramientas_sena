@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     actualizarDatos($conectar, $documento); // Pasar $documento como argumento
 }
 
-function actualizarDatos($conectar, $documento) {
+function actualizarDatos($conectar, $documento)
+{
     $ficha = $_POST['ficha'];
     $nombre = $_POST['nombre'];
     $email = $_POST['email'];
@@ -254,20 +255,39 @@ if (isset($_SESSION['documento'])) {
                                         <div class="formulario__grupo" id="grupo__documento">
                                             <label for="documento" class="formulario__label">Documento:</label>
                                             <input type="text" class="formulario__input" id="documento" name="documento" disabled value="<?= $documento_usuario ?>" required>
-                                            
+
                                         </div>
 
                                         <div class="formulario__grupo" id="grupo__nombre">
                                             <label for="nombre" class="formulario__label">Nombres y apellidos:</label>
                                             <input type="text" class="formulario__input" id="nombre" name="nombre" value="<?= $nombre_usuario ?>" pattern="[a-zA-Z0-9\s]+" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
+                                            <small>El nombre no debe contener caracteres especiales.</small>
                                         </div>
 
                                         <div class="formulario__grupo" id="grupo__email">
                                             <label for="email" class="formulario__label">Email:</label>
-                                            <input type="email" class="formulario__input" id="email" name="email" value="<?= $email_usuario ?>" required>
-                                            <p class="formulario__input-error">El email debe ser válido.</p>
+                                            <input type="email" class="formulario__input" id="email" name="email" value="<?= $email_usuario ?>" required oninput="validateEmail(this)">
+                                            <p class="formulario__input-error" id="email-error">El email debe ser válido y terminar con .com, .co, .net, .org, .edu o .edu.xx, sin caracteres adicionales.</p>
                                         </div>
+
+                                        <script>
+                                            function validateEmail(input) {
+                                                var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co|net|org|edu(\.[a-zA-Z]{2})?)$/;
+                                                var errorMessage = document.getElementById('email-error');
+
+                                                if (!pattern.test(input.value)) {
+                                                    input.setCustomValidity("El email debe ser válido y terminar con .com, .co, .net, .org, .edu o .edu.xx, sin caracteres adicionales.");
+                                                    errorMessage.style.display = 'block';
+                                                } else {
+                                                    input.setCustomValidity("");
+                                                    errorMessage.style.display = 'none';
+                                                }
+                                            }
+
+                                            // Inicialmente oculta el mensaje de error
+                                            document.getElementById('email-error').style.display = 'none';
+                                        </script>
+
 
                                         <div class="formulario__grupo" id="grupo__ficha">
                                             <label for="fichaInput" class="formulario__label">Ficha:</label>
