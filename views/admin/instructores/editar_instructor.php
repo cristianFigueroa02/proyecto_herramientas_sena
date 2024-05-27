@@ -267,7 +267,7 @@ if (isset($_SESSION['documento'])) {
                                         <div class="formulario__grupo" id="grupo__email">
                                             <label for="email" class="formulario__label">Email:</label>
                                             <input type="email" class="formulario__input" id="email" name="email" value="<?= $email_usuario ?>" required oninput="validateEmail(this)">
-                                            <p class="formulario__input-error" id="email-error">El email debe ser válido y terminar con .com, .co, .net, .org, .edu o .edu.xx, sin caracteres adicionales.</p>
+                                            <p class="formulario__input-error" id="email-error">El email debe ser válido y terminar sin caracteres adicionales.</p>
                                         </div>
 
                                         <script>
