@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2024 a las 14:18:51
+-- Tiempo de generación: 27-05-2024 a las 15:56:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -50,6 +50,9 @@ CREATE TABLE `contactos` (
 --
 
 INSERT INTO `contactos` (`nombre`, `email`, `telefono`, `mensaje`) VALUES
+('asdasds', 'sdasdas@sena.com', 'asdasd', 'areasda'),
+('asdasdas', 'asdasaaad@sena.com', '123456789', 'asdsadasdMessage'),
+('brayan', 'ezbrayanp@gmail.com', '3202174961', 'debo mirar los campos text number (definir)'),
 ('asdasds', 'sdasdas@sena.com', 'asdasd', 'areasda'),
 ('asdasdas', 'asdasaaad@sena.com', '123456789', 'asdsadasdMessage'),
 ('brayan', 'ezbrayanp@gmail.com', '3202174961', 'debo mirar los campos text number (definir)');
@@ -169,9 +172,7 @@ CREATE TABLE `licencia` (
 --
 
 INSERT INTO `licencia` (`licencia`, `estado`, `fecha_inicio`, `fecha_fin`, `nit`) VALUES
-('123456', 'activo', '2024-02-26 16:43:18', '2025-02-26 16:43:18', 123456789),
-('65e88323d19aa', 'activo', '2024-03-06 15:52:19', '2025-03-06 15:52:19', 154879),
-('660bf2c24920a', 'inactivo', '2024-04-02 13:57:54', '2024-04-02 13:58:54', 14789);
+('123456', 'activo', '2024-02-26 16:43:18', '2025-02-26 16:43:18', 123456789);
 
 -- --------------------------------------------------------
 
@@ -263,17 +264,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`documento`, `contraseña`, `nombre`, `id_tip_doc`, `email`, `id_rol`, `estado`, `nit`, `tyc`) VALUES
-(412545, '$2y$15$jSe6TacwVGidi668X0zRVuoapJ3GjcTAbwUy8/NX5fVmr3VucG7o2', 'adasdasdasd', NULL, 'dasd@sena.com', 1, 'activo', 123456789, 'si'),
-(1101546, '$2y$15$O5pAdl0Fa.e6wpibp6wKvOvZxLwbzTcRa7ehFgb8HIJ.SLV7VUR52', 'adsadvthllo', NULL, 'asda@sena.com', 1, 'activo', 123456789, 'si'),
-(1234564, '$2y$15$7ASqZJ59PRH1AfgpeEMJCuemPhBz2R/VucuC8g7plL0/sQ8rqEude', 'sadasdasdfdfd', NULL, 'asdasd@sena.com', 1, 'activo', 123456789, 'si'),
-(1245785, '$2y$15$7Qr.UjY7iPmhqBDC5ScgM.eXqhto1ECM343TGySLLHGagFi4tayTu', 'deigo betanic', NULL, 'asdadasdghhj@sena.com', 1, 'activo', 123456789, 'si'),
-(14412348, '$2y$15$HG3HIJDyz.//Jzm1ISor1uvr5Gx3iml9Yjp/K2Qz30U7Ze5qYwrre', 'asascascasadas', 1, 'cjfifueasdascasc@sena.com', 4, 'activo', 123456789, 'si'),
-(123456781, '$2y$15$WLEIoupjefUbOY2SstCmUuOr1Ochm5w3O.Lb84c5UtkoPWPGc46cS', 'asdasdasdasd', 1, 'asdasda@sena.com', 4, 'activo', 123456789, 'si'),
-(456789123, '$2y$15$zLnhZJGgze25ocCb85b6ou8U/l.Osjw5GQ.EZJ43dcm3WY4DboF0W', 'armero julian', 1, 'asdasdasd@sena.com', 4, 'activo', 123456789, 'si'),
-(1107975321, '$2y$15$nOt2zC5P5CcV9XjghEiMqOoi04tW4NJLLCCTXDAR0LobQok.vLY5m', 'asdasdadasd', 1, 'sadasdas@sena.com', 2, 'activo', 123456789, 'si'),
-(1107975322, '$2y$10$XGTsQD2pLExCOHti07bZh.XtQ27it3b4qsBfDzekKnR7WAACygQXW', 'cristian figueroa', 1, 'cristianfigueroa040@gmail.com', 1, 'activo', 123456789, 'si'),
-(1223054461, '$2y$15$idUHq7aewPgutM0PTrn.9.vHsD7a4813TNJ6nV.vPIbeJ1W7rKc7u', 'armero figueroa', 1, 'asdfweda@sena.com', 4, 'activo', 123456789, 'si'),
-(2512314542, '$2y$15$qBcy5zQ4ec92KBPcj5O.4.Hmed.sbk7evvOeQ3xXb3ExquZDDygt2', 'asdasfdsfsf', 1, 'armero@sena.com', 4, 'activo', 123456789, 'si');
+(1107975322, '$2y$10$XGTsQD2pLExCOHti07bZh.XtQ27it3b4qsBfDzekKnR7WAACygQXW', 'cristian figueroa', 1, 'cristianfigueroa040@gmail.com', 1, 'activo', 123456789, 'si');
 
 --
 -- Índices para tablas volcadas
