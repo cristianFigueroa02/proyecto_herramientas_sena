@@ -1,5 +1,5 @@
 <?php
-require_once("../../../bd/database.php");
+require_once("../../bd/database.php");
 $db = new Database();
 $conectar = $db->conectar();
 session_start();

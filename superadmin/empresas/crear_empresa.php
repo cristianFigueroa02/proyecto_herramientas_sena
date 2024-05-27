@@ -91,36 +91,51 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
             </div>
         </div>
     </header>
-<main class="contenedor sombra">
-    <div class="container mt-5">
-        <h2>Registro de Empresa</h2>
-        <form method="POST">
-            <div class="form-group">
-                <label for="nit">NIT:</label>
-                <input type="text" id="nit" name="nit" class="form-control" pattern="[0-9]{8,12}" title="El NIT debe contener entre 8 y 12 dígitos numéricos" required>
-            </div>
-            <div class="form-group">
-                <label for="nombre_empre">Nombre de la Empresa:</label>
-                <input type="text" id="nombre_empre" name="nombre_empre" class="form-control" pattern="[a-zA-Z0-9\s]+" title="El nombre de la empresa solo puede contener letras, números y espacios" required>
-            </div>
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" class="form-control" pattern="[a-zA-Z0-9\s#.']+" title="La dirección puede contener letras, números, espacios, #, . y '" required>
-            </div>
-            <div class="form-group">
-                <label for="gmail">Correo Electrónico:</label>
-                <input type="email" id="gmail" name="gmail" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" class="form-control" pattern="[0-9]+" title="El teléfono solo puede contener dígitos numéricos" required>
-            </div>
-            <button type="submit" class="btn btn-success">Registrar</button>
-            <input type="hidden" name="registro" value="formu">
-            <a href="lista_empresa.php" class="btn btn-danger">Cancelar</a>
-        </form>
-    </div>
-</main>
+    <main class="contenedor sombra">
+        <div class="container mt-5">
+            <h2>Registro de Empresa</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="nit">NIT:</label>
+                    <input type="text" id="nit" name="nit" class="form-control" pattern="[0-9]{8,12}" title="El NIT debe contener entre 8 y 12 dígitos numéricos" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre_empre">Nombre de la Empresa:</label>
+                    <input type="text" id="nombre_empre" name="nombre_empre" class="form-control" pattern="[a-zA-Z0-9\s]+" title="El nombre de la empresa solo puede contener letras, números y espacios" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control" pattern="[a-zA-Z0-9\s.,#'/-:]+" title="La dirección puede contener letras, números, espacios y caracteres especiales" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gmail">Correo Electrónico:</label>
+                    <input type="email" id="gmail" name="gmail" class="form-control" required oninput="validateEmail(this)">
+                </div>
+
+                <script>
+                    function validateEmail(input) {
+                        var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co|net|org|edu(\.[a-zA-Z]{2})?)$/;
+                        if (!pattern.test(input.value)) {
+                            input.setCustomValidity("El correo electrónico debe ser válido y sin caracteres adicionales al final del correo");
+                        } else {
+                            input.setCustomValidity("");
+                        }
+                    }
+                </script>
+
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control" pattern="\d{10}" title="El teléfono debe contener 10 dígitos numéricos" maxlength="10" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Registrar</button>
+                <input type="hidden" name="registro" value="formu">
+                <a href="lista_empresa.php" class="btn btn-danger">Cancelar</a>
+            </form>
+        </div>
+    </main>
 
     <!-- footer -->
     <footer>

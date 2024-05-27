@@ -41,8 +41,8 @@ if (isset($_POST["MM_insert"]) && $_POST["MM_insert"] == "formreg") {
                 echo '<script>alert("La empresa ya tiene una licencia activa");</script>';
                 echo '<script>window.location="crear_licencia.php"</script>';
             } else {
-$insertsql = $conectar->prepare("INSERT INTO licencia (licencia, estado, fecha_inicio, fecha_fin, nit) VALUES (?, ?, ?, ?, ?)");
-$insertsql->execute([$licencia, 'activo', $fecha_inicio, $fecha_fin, $nit]);
+                $insertsql = $conectar->prepare("INSERT INTO licencia (licencia, estado, fecha_inicio, fecha_fin, nit) VALUES (?, ?, ?, ?, ?)");
+                $insertsql->execute([$licencia, 'activo', $fecha_inicio, $fecha_fin, $nit]);
 
                 echo '<script>alert("Licencia activa con éxito");</script>';
                 echo '<script>window.location="lista_licencia.php"</script>';
@@ -124,6 +124,34 @@ $insertsql->execute([$licencia, 'activo', $fecha_inicio, $fecha_fin, $nit]);
                             <option value="<?php echo $tipo['nit']; ?>"><?php echo $tipo['nombre_empre']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <button onclick="abrirVentana()">Crear empresa</button>
+                    <script>
+                        function abrirVentana() {
+                            // URL absoluta que quieres abrir en la ventana emergente
+                            var url = "../empresas/crear_empresa.php";
+
+                            // Ancho y alto de la ventana emergente (la mitad de la pantalla)
+                            var ancho = window.innerWidth / 2;
+                            var alto = window.innerHeight / 2;
+
+                            // Calcular las coordenadas left y top para centrar la ventana emergente
+                            var left = (window.innerWidth - ancho) / 2 + window.screenX;
+                            var top = (window.innerHeight - alto) / 2 + window.screenY;
+
+                            // Intentar abrir la ventana emergente
+                            var ventana = window.open(url, "_blank", "width=" + ancho + ", height=" + alto + ", left=" + left + ", top=" + top);
+
+                            // Verificar si se pudo abrir la ventana emergente
+                            if (ventana) {
+                                // La ventana emergente se abrió correctamente
+                            } else {
+                                // Manejar el caso en que no se pudo abrir la ventana emergente
+                                alert("No se pudo abrir la ventana emergente. Por favor, asegúrate de que los bloqueadores de ventanas emergentes estén desactivados.");
+                            }
+                        }
+                    </script>
+
+                    <br>
                     <input type="hidden" name="MM_insert" value="formreg">
                     <button type="submit" class="btn btn-success" style="margin-top: 10px;">Registrarme</button>
                     <a href="lista_licencia.php" class="btn btn-danger" style="margin-top: 10px;">Regresar</a>

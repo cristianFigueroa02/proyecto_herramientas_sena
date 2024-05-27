@@ -99,39 +99,64 @@ if (isset($_GET['id'])) {
     </header> <!-- ... (your existing body content) ... -->
 
     <section class="section">
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <h2>Actualizar Empresa</h2>
-                <form method="POST">
-                    <div class="form-group">
-                        <label for="nombre">NIT de la empresa:</label>
-                        <input type="text" class="form-control" value="<?php echo $nit['nit']; ?>" disabled>
-                    </div>
-                                        <div class="form-group">
-                        <label for="nombre">Dirección:</label>
-                        <input type="text" class="form-control" value="<?php echo $nit['nombre_empre']; ?>" id="direccion" name="direccion" pattern="[a-zA-Z0-9\s#.']+"  disabled>
-                    </div>
-                                        <div class="form-group">
-                        <label for="nombre">Numero Telefonico:</label>
-                        <input type="text" class="form-control" value="<?php echo $nit['telefono']; ?>" id="telefono" name="telefono" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre">Nombre del administrador:</label>
-                        <input type="text" class="form-control" value="<?php echo $nit['nombre']; ?>" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre del admin solo puede contener letras, números y espacios" required>
-                    </div>
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <h2>Editar admin</h2>
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="nombre">NIT de la empresa:</label>
+                            <input type="text" class="form-control" value="<?php echo $nit['nit']; ?>" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Dirección:</label>
+                            <input type="text" class="form-control" value="<?php echo $nit['nombre_empre']; ?>" id="direccion" name="direccion" pattern="[a-zA-Z0-9\s#.']+" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Numero Telefonico:</label>
+                            <input type="text" class="form-control" value="<?php echo $nit['telefono']; ?>" id="telefono" name="telefono" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre del administrador:</label>
+                            <input type="text" class="form-control" value="<?php echo $nit['nombre']; ?>" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre del admin solo puede contener letras, números y espacios, y debe tener al menos 10 caracteres" minlength="10" required oninput="validateAdminName(this)">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="nombre">E-mail:</label>
-                        <input type="email" class="form-control" value="<?php echo $nit['gmail']; ?>" id="gmail" name="gmail" required>
-                    </div>
-                    <button type="submit" class="btn btn-success" style="margin-top:1rem; margin-left:1.6em;">Actualizar</button>
-                    <a href="lista_empresa.php" class="btn btn-danger" style="margin-top:1rem; margin-left:1.6em;">Cancelar</a>
-                </form>
+                        <script>
+                            function validateAdminName(input) {
+                                var pattern = /^[a-zA-Z0-9\s]+$/;
+                                var minLength = 10;
+                                if (!pattern.test(input.value) || input.value.length < minLength) {
+                                    input.setCustomValidity("El nombre del admin solo puede contener letras, números y espacios, y debe tener al menos 10 caracteres");
+                                } else {
+                                    input.setCustomValidity("");
+                                }
+                            }
+                        </script>
+
+
+                        <div class="form-group">
+                            <label for="gmail">E-mail:</label>
+                            <input type="email" class="form-control" value="<?php echo $nit['gmail']; ?>" id="gmail" name="gmail" required oninput="validateEmail(this)">
+                        </div>
+
+                        <script>
+                            function validateEmail(input) {
+                                var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co|net|org|edu(\.[a-zA-Z]{2})?)$/;
+                                if (!pattern.test(input.value)) {
+                                    input.setCustomValidity("El correo electrónico debe ser válido y terminar sin caracteres adicionales");
+                                } else {
+                                    input.setCustomValidity("");
+                                }
+                            }
+                        </script>
+
+                        <button type="submit" class="btn btn-success" style="margin-top:1rem; margin-left:1.6em;">Actualizar</button>
+                        <a href="lista_admin.php" class="btn btn-danger" style="margin-top:1rem; margin-left:1.6em;">Cancelar</a>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <footer>
         <div class="footer">
