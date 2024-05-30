@@ -31,10 +31,7 @@ if (isset($_GET['id'])) {
 
         echo '<script>alert ("Actualizacion Exitosa");</script>';
         echo '<script> window.location= "lista.php"</script>';
-    }
-
-
-    else {
+    } else {
     }
 }
 ?>
@@ -101,11 +98,12 @@ if (isset($_GET['id'])) {
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <h2>Actualizar Herramienta</h2>
                     <form method="POST">
-<div class="form-group">
-    <label for="nombre">Nombre de la herramienta:</label>
-    <input type="text" class="form-control" value="<?php echo $herramientas['nombre_he']; ?>" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
-</div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre de la herramienta:</label>
+                            <input type="text" class="form-control" value="<?php echo htmlspecialchars($herramientas['nombre_he'], ENT_QUOTES, 'UTF-8'); ?>" id="nombre" name="nombre" pattern="[a-zA-Z][a-zA-Z0-9\s]*" title="El nombre debe comenzar con una letra y no debe contener caracteres especiales" required>
+                            <small>El nombre debe comenzar con una letra y no debe contener caracteres especiales.</small>
+                        </div>
+
 
 
                         <label for="tipo">Tipo de herramienta:</label>

@@ -99,8 +99,10 @@ if (isset($_POST["registro"]) && $_POST["registro"] == "formu") {
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="ficha">Ficha:</label>
-                    <input type="text" class="form-control" id="ficha" name="ficha" pattern="\d+" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <input type="text" class="form-control" id="ficha" name="ficha" pattern="\d{7,}" minlength="7" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <p class="formulario__input-error">La ficha debe ser válida y solo debe contener números (mínimo 7 dígitos).</p>
                 </div>
+
 
                 <div class="form-group">
                     <label for="nombre">Nombre de la formación:</label>

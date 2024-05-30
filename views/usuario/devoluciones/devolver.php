@@ -27,71 +27,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["herramientas"])) {
 
     // Procesar cada herramienta prestada
     foreach ($herramientas_prestadas as $herramienta_prestada) {
-    $id_herramienta = $herramienta_prestada['id_herramienta'];
-    $cantidad_prestada = $herramienta_prestada['cantidad_prestada'];
+        $id_herramienta = $herramienta_prestada['id_herramienta'];
+        $cantidad_prestada = $herramienta_prestada['cantidad_prestada'];
 
-    // Si la herramienta está seleccionada para devolver
-    if (in_array($id_herramienta, $herramientas_seleccionadas)) {
-        $cantidad_devolver = (int)$cantidades_a_devolver[$id_herramienta];
+        // Si la herramienta está seleccionada para devolver
+        if (in_array($id_herramienta, $herramientas_seleccionadas)) {
+            $cantidad_devolver = (int)$cantidades_a_devolver[$id_herramienta];
 
-        // Si la cantidad a devolver es 0, redirigir a la misma página
-        if ($cantidad_devolver == 0) {
-            echo "<script>alert('No es posible devolver 0 herramientas para la herramienta con ID $id_herramienta.');</script>";
-            echo "<script>window.location.href = window.location.href;</script>";
-            exit();
-        }
+            // Si la cantidad a devolver es 0, redirigir a la misma página
+            if ($cantidad_devolver == 0) {
+                echo "<script>alert('No es posible devolver 0 herramientas para la herramienta con ID $id_herramienta.');</script>";
+                echo "<script>window.location.href = window.location.href;</script>";
+                exit();
+            }
 
-        // Calcular la cantidad restante después de la devolución
-        $cantidad_restante = $cantidad_prestada - $cantidad_devolver;
+            // Calcular la cantidad restante después de la devolución
+            $cantidad_restante = $cantidad_prestada - $cantidad_devolver;
 
-        // Actualizar el stock en la tabla herrramienta sumando la cantidad devuelta
-        $stmt_update_stock = $conectar->prepare("UPDATE herrramienta SET stock = stock + :cantidad WHERE id_herramienta = :id_herramienta");
-        $stmt_update_stock->bindParam(':cantidad', $cantidad_devolver);
-        $stmt_update_stock->bindParam(':id_herramienta', $id_herramienta);
-        $stmt_update_stock->execute();
+            // Actualizar el stock en la tabla herrramienta sumando la cantidad devuelta
+            $stmt_update_stock = $conectar->prepare("UPDATE herrramienta SET stock = stock + :cantidad WHERE id_herramienta = :id_herramienta");
+            $stmt_update_stock->bindParam(':cantidad', $cantidad_devolver);
+            $stmt_update_stock->bindParam(':id_herramienta', $id_herramienta);
+            $stmt_update_stock->execute();
 
-        // Verificar si el stock actual es mayor que 0 y actualizar el estado si es necesario
-        $stmt_check_stock = $conectar->prepare("SELECT stock FROM herrramienta WHERE id_herramienta = :id_herramienta");
-        $stmt_check_stock->bindParam(':id_herramienta', $id_herramienta);
-        $stmt_check_stock->execute();
-        $stock_actual = $stmt_check_stock->fetchColumn();
+            // Verificar si el stock actual es mayor que 0 y actualizar el estado si es necesario
+            $stmt_check_stock = $conectar->prepare("SELECT stock FROM herrramienta WHERE id_herramienta = :id_herramienta");
+            $stmt_check_stock->bindParam(':id_herramienta', $id_herramienta);
+            $stmt_check_stock->execute();
+            $stock_actual = $stmt_check_stock->fetchColumn();
 
-        if ($stock_actual > 0) {
-            $stmt_update_estado = $conectar->prepare("UPDATE herrramienta SET estado = 'disponible' WHERE id_herramienta = :id_herramienta");
-            $stmt_update_estado->bindParam(':id_herramienta', $id_herramienta);
-            $stmt_update_estado->execute();
-        }
+            if ($stock_actual > 0) {
+                $stmt_update_estado = $conectar->prepare("UPDATE herrramienta SET estado = 'disponible' WHERE id_herramienta = :id_herramienta");
+                $stmt_update_estado->bindParam(':id_herramienta', $id_herramienta);
+                $stmt_update_estado->execute();
+            }
 
-        // Verificar si la herramienta se devuelve parcialmente
-        if ($cantidad_devolver < $cantidad_prestada) {
-            // Si hay cantidad restante, agregarla al array de herramientas restantes
+            // Verificar si la herramienta se devuelve parcialmente
+            if ($cantidad_devolver < $cantidad_prestada) {
+                // Si hay cantidad restante, agregarla al array de herramientas restantes
+                $herramientas_restantes[] = [
+                    'id_herramienta' => $id_herramienta,
+                    'cantidad_restante' => $cantidad_restante
+                ];
+            }
+
+            // Solo actualizar `cantidad_prestada` en `detalle_pres` si `cantidad_devolver` es menor que `cantidad_prestada`
+            if ($cantidad_devolver < $cantidad_prestada) {
+                $stmt_update_detalle = $conectar->prepare("UPDATE detalle_pres SET cantidad_prestada = cantidad_prestada - :cantidad_devolver WHERE id_prestamo = :id_prestamo AND id_herramienta = :id_herramienta");
+                $stmt_update_detalle->bindParam(':cantidad_devolver', $cantidad_devolver);
+                $stmt_update_detalle->bindParam(':id_prestamo', $id_prestamo);
+                $stmt_update_detalle->bindParam(':id_herramienta', $id_herramienta);
+                $stmt_update_detalle->execute();
+            }
+        } else {
+            // Si la herramienta no está seleccionada para devolver, eliminarla del detalle del préstamo
+            $stmt_delete_detalle = $conectar->prepare("DELETE FROM detalle_pres WHERE id_prestamo = :id_prestamo AND id_herramienta = :id_herramienta");
+            $stmt_delete_detalle->bindParam(':id_prestamo', $id_prestamo);
+            $stmt_delete_detalle->bindParam(':id_herramienta', $id_herramienta);
+            $stmt_delete_detalle->execute();
+
+            // Agregar la herramienta eliminada al array de herramientas restantes
             $herramientas_restantes[] = [
                 'id_herramienta' => $id_herramienta,
-                'cantidad_restante' => $cantidad_restante
+                'cantidad_restante' => $cantidad_prestada
             ];
         }
-
-        // Solo actualizar `cantidad_prestada` en `detalle_pres` si `cantidad_devolver` es menor que `cantidad_prestada`
-        if ($cantidad_devolver < $cantidad_prestada) {
-            $stmt_update_detalle = $conectar->prepare("UPDATE detalle_pres SET cantidad_prestada = cantidad_prestada - :cantidad_devolver WHERE id_prestamo = :id_prestamo AND id_herramienta = :id_herramienta");
-            $stmt_update_detalle->bindParam(':cantidad_devolver', $cantidad_devolver);
-            $stmt_update_detalle->bindParam(':id_prestamo', $id_prestamo);
-            $stmt_update_detalle->bindParam(':id_herramienta', $id_herramienta);
-            $stmt_update_detalle->execute();
-        }
-    } else {
-        // Si la herramienta no está seleccionada para devolver, agregarla al array de herramientas restantes
-        $herramientas_restantes[] = [
-            'id_herramienta' => $id_herramienta,
-            'cantidad_restante' => $cantidad_prestada
-        ];
     }
-}
 
     // Si no hay herramientas restantes, actualizar el estado del préstamo a 'devuelto'
-        $stmt_update_prestamo = $conectar->prepare("UPDATE prestamos SET estado_prestamo = 'devuelto' WHERE id_prestamo = :id_prestamo");
-        $stmt_update_prestamo->bindParam(':id_prestamo', $id_prestamo);
-        $stmt_update_prestamo->execute();
+    $stmt_update_prestamo = $conectar->prepare("UPDATE prestamos SET estado_prestamo = 'devuelto' WHERE id_prestamo = :id_prestamo");
+    $stmt_update_prestamo->bindParam(':id_prestamo', $id_prestamo);
+    $stmt_update_prestamo->execute();
 
     // Verificar si hay herramientas restantes
     if (!empty($herramientas_restantes)) {
@@ -107,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["herramientas"])) {
     echo '<script>window.location= "lista_devoluciones.php"</script>';
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -210,8 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["herramientas"])) {
                     ?>
                 </div>
                 <!-- Botones de enviar y volver -->
-<input type="submit" class="btn btn-success" value="Devolver" 
-       onclick="return confirm('¿Estás seguro de devolver el préstamo? Si no se devuelven todas las herramientas, se generará otro préstamo.')">
+                <input type="submit" class="btn btn-success" value="Devolver" onclick="return confirm('¿Estás seguro de devolver el préstamo? Si no se devuelven todas las herramientas, se generará otro préstamo.')">
 
                 <input type="hidden" name="registro" value="formu">
                 <a href="lista.php" class="btn btn-danger">Volver</a>

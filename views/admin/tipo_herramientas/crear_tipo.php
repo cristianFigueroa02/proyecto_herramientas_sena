@@ -90,9 +90,10 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nombre">Nombre del tipo de herramienta:</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-                    <small>El nombre no debe contener caracteres especiales.</small>
+                    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z\s]+" title="El nombre solo debe contener letras y espacios" required>
+                    <small>El nombre solo debe contener letras y espacios.</small>
                 </div>
+
 
 
                 <input type="submit" class="btn btn-success" value="Registrar">

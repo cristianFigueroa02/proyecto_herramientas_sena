@@ -38,8 +38,8 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
     $validar->execute([$codigo_barras, $nombre]);
     $fila1 = $validar->fetch();
 
-    if ($nombre == "" || $tipo == "" || $codigo_barras == "") {
-        echo '<script> alert ("EXISTEN DATOS VACIOS");</script>';
+    if ($nombre == "" || $tipo == "" || $codigo_barras == "" || $cantidad <= 0) {
+        echo '<script> alert ("EXISTEN DATOS VACIOS O LA CANTIDAD ES INVÁLIDA");</script>';
         echo '<script> window.location="crear_herramientas.php"</script>';
     } else if ($fila1) {
         echo '<script> alert ("LA HERRAMIENTA YA EXISTE");</script>';
@@ -52,12 +52,12 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
     }
 }
 
-
 // Consulta para obtener los tipos de armas
 $tiposherrasQuery = $conectar->prepare("SELECT id_cate,categoria FROM categoria");
 $tiposherrasQuery->execute();
 $tiposherra = $tiposherrasQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,11 +118,12 @@ $tiposherra = $tiposherrasQuery->fetchAll(PDO::FETCH_ASSOC);
         <div class="container mt-5">
             <h2>Crear Herramienta</h2>
             <form method="POST" enctype="multipart/form-data">
-<div class="form-group">
-    <label for="nombre">Nombre de la herramienta:</label>
-    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
-</div>
+                <div class="form-group">
+                    <label for="nombre">Nombre de la herramienta:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z][a-zA-Z0-9\s]*" title="El nombre debe comenzar con una letra y no debe contener caracteres especiales" required>
+                    <small>El nombre debe comenzar con una letra y no debe contener caracteres especiales.</small>
+                </div>
+
 
 
                 <div class="form-group">
@@ -140,31 +141,31 @@ $tiposherra = $tiposherrasQuery->fetchAll(PDO::FETCH_ASSOC);
                     </select>
                     <button onclick="abrirVentanaCrear()">crear tipo</button>
 
-                                                <script>
-                                                function abrirVentanaCrear() {
-                                                    // URL absoluta que quieres abrir en la ventana emergente
-                                                    var url = "../tipo_herramientas/crear_tipo.php";
-                                                
-                                                    // Ancho y alto de la ventana emergente (ajustar según necesites)
-                                                    var ancho = 600;
-                                                    var alto = 400;
-                                                
-                                                    // Calcular las coordenadas left y top para centrar la ventana emergente
-                                                    var left = (screen.width - ancho) / 2;
-                                                    var top = (screen.height - alto) / 2;
-                                                
-                                                    // Intentar abrir la ventana emergente
-                                                    var ventana = window.open(url, "_blank", "width=" + ancho + ", height=" + alto + ", left=" + left + ", top=" + top);
-                                                
-                                                    // Verificar si se pudo abrir la ventana emergente
-                                                    if (ventana) {
-                                                        // La ventana emergente se abrió correctamente
-                                                    } else {
-                                                        // Manejar el caso en que no se pudo abrir la ventana emergente
-                                                        alert("No se pudo abrir la ventana emergente. Por favor, asegúrate de que los bloqueadores de ventanas emergentes estén desactivados.");
-                                                    }
-                                                }
-                                                </script>
+                    <script>
+                        function abrirVentanaCrear() {
+                            // URL absoluta que quieres abrir en la ventana emergente
+                            var url = "../tipo_herramientas/crear_tipo.php";
+
+                            // Ancho y alto de la ventana emergente (ajustar según necesites)
+                            var ancho = 600;
+                            var alto = 400;
+
+                            // Calcular las coordenadas left y top para centrar la ventana emergente
+                            var left = (screen.width - ancho) / 2;
+                            var top = (screen.height - alto) / 2;
+
+                            // Intentar abrir la ventana emergente
+                            var ventana = window.open(url, "_blank", "width=" + ancho + ", height=" + alto + ", left=" + left + ", top=" + top);
+
+                            // Verificar si se pudo abrir la ventana emergente
+                            if (ventana) {
+                                // La ventana emergente se abrió correctamente
+                            } else {
+                                // Manejar el caso en que no se pudo abrir la ventana emergente
+                                alert("No se pudo abrir la ventana emergente. Por favor, asegúrate de que los bloqueadores de ventanas emergentes estén desactivados.");
+                            }
+                        }
+                    </script>
 
                 </div>
 

@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["herramientas"])) {
     // Obtener las herramientas seleccionadas y sus cantidades correspondientes
     $herramientas_seleccionadas = $_POST["herramientas"];
     $cantidades_a_devolver = $_POST["cantidad"];
-    
+
     // Validar que ninguna cantidad a devolver sea 0
     foreach ($herramientas_seleccionadas as $id_herramienta) {
         if (isset($cantidades_a_devolver[$id_herramienta]) && (int)$cantidades_a_devolver[$id_herramienta] == 0) {
@@ -69,7 +69,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["herramientas"])) {
                 $stmt_update_stock->bindParam(':cantidad', $cantidad_restante);
                 $stmt_update_stock->bindParam(':id_herramienta', $id_herramienta);
                 $stmt_update_stock->execute();
+
+                // Verificar si el stock es mayor que cero después de la actualización
+                $nuevo_stock = $stock_actual + $cantidad_restante;
+                if ($nuevo_stock > 0) {
+                    $stmt_update_estado = $conectar->prepare("UPDATE herrramienta SET estado = 'disponible' WHERE id_herramienta = :id_herramienta");
+                    $stmt_update_estado->bindParam(':id_herramienta', $id_herramienta);
+                    $stmt_update_estado->execute();
+                }
             }
+
 
             // Realizar la inserción en `deta_reportes`
             $stmt_detalles = $conectar->prepare("INSERT INTO deta_reportes (id_reporte, id_herramienta, descripcion, cantidad_reportada) VALUES (:id_reporte, :id_herramienta, :descripcion, :cantidad)");
@@ -215,10 +224,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["herramientas"])) {
                 </div>
 
                 <!-- Agregar textarea para describir lo sucedido -->
-<div class="form-group">
-    <label for="descripcion">Descripción:</label><br>
-    <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
-</div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label><br>
+                    <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
+                </div>
 
 
                 <!-- Agregar botones de enviar y volver -->

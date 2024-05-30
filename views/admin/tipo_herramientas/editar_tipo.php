@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
         $nombre = $_POST['nombre'];
 
         $updateQuery = $conectar->prepare("UPDATE categoria SET categoria = ? WHERE id_cate = ?");
-        $resultado = $updateQuery->execute([$nombre,$id]);
+        $resultado = $updateQuery->execute([$nombre, $id]);
 
         if ($resultado) {
             header("Location: lista_tipos.php?success=1&mensaje=actualizaste con exito"); // Redirigir con éxito si la consulta se realizó correctamente
@@ -97,17 +97,18 @@ if (isset($_GET['id'])) {
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <h2>Actualizar tipo de herramienta</h2>
                     <form method="POST">
-<div class="form-group">
-    <label for="nombre">Nombre del tipo de herramienta:</label>
-    <input type="text" class="form-control" value="<?php echo $herramientas['categoria']; ?>" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
-</div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre del tipo de herramienta:</label>
+                            <input type="text" class="form-control" value="<?php echo htmlspecialchars($herramientas['categoria'], ENT_QUOTES, 'UTF-8'); ?>" id="nombre" name="nombre" pattern="[a-zA-Z\s]+" title="El nombre solo debe contener letras y espacios" required>
+                            <small>El nombre solo debe contener letras y espacios.</small>
+                        </div>
 
-                <button type="submit" class="btn btn-success" style="margin-top:1rem; margin-left:0.1rem;">Actualizar</button>
-                </form>
+
+                        <button type="submit" class="btn btn-success" style="margin-top:1rem; margin-left:0.1rem;">Actualizar</button>
+                    </form>
+                </div>
+                <a href="lista_tipos.php" class="btn btn-danger" style="margin-top:1rem; margin-left:1.6rem;">Volver</a>
             </div>
-            <a href="lista_tipos.php" class="btn btn-danger" style="margin-top:1rem; margin-left:1.6rem;">Volver</a>
-        </div>
         </div>
     </section>
     <footer>
