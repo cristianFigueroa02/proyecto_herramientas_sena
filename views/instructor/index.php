@@ -100,18 +100,6 @@ if (isset($_SESSION['documento'])) {
                     </div>
                     <p> lista de prestamos y seguimiento </p>
                 </section>
-            </a>
-            <a href="lista_herramientas/lista.php" class="enlace-servicio">
-                <section class="servicio">
-                    <h3 style="text-transform: uppercase;">Lista de herramientas</h3>
-                    <div class="iconos">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tool" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
-                        </svg>
-                    </div>
-                    <p> lista,creacion,actualizacion y eliminacion de herramientas </p>
-                </section>
             </a><!-- Añadido el cierre de la etiqueta a -->
             <a href="devoluciones/lista_devoluciones.php" class="enlace-servicio">
                 <section class="servicio">
@@ -141,20 +129,6 @@ if (isset($_SESSION['documento'])) {
                     <p> lista de reportes </p>
                 </section>
                 
-            </a>
-                        <a href="tipo_herramientas/lista_tipos.php" class="enlace-servicio">
-                <section class="servicio">
-                    <h3 style="text-transform: uppercase;">tipo de herramientas</h3>
-                    <div class="iconos">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-axe" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M13 9l7.383 7.418c.823 .82 .823 2.148 0 2.967a2.11 2.11 0 0 1 -2.976 0l-7.407 -7.385" />
-                            <path d="M6.66 15.66l-3.32 -3.32a1.25 1.25 0 0 1 .42 -2.044l3.24 -1.296l6 -6l3 3l-6 6l-1.296 3.24a1.25 1.25 0 0 1 -2.044 .42z" />
-                        </svg>
-                    </div>
-                    <p> crear,editar y eliminar tipo de herramientas </p>
-                </section>
-            </a>
         </div>
         <div class="text-right mt-3">
             <a href="cerrar_sesion.php" class="btn btn-danger">Cerrar sesión</a>

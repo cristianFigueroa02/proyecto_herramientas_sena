@@ -1,17 +1,11 @@
 <?php
 require_once("../../../bd/database.php");
-
+$db = new Database();
+$conectar = $db->conectar();
 session_start();
 
-// Reutilizar la conexión existente si está disponible
-if (!isset($conectar)) {
-    $db = new Database();
-    $conectar = $db->conectar();
-}
-
-// Redirigir a la página de inicio si no está logueado
 if (!isset($_SESSION['documento'])) {
-    header("Location: ./../../login.php");
+    header("Location: ../../../login.php"); // Redirigir a la página de inicio si no está logueado
     exit();
 }
 
@@ -24,13 +18,25 @@ if (isset($_POST["registro"]) && $_POST["registro"] == "formu") {
         echo '<script>alert("EXISTEN DATOS VACIOS");</script>';
         echo '<script>window.location="crear_formacion.php";</script>';
     } else {
-        // Preparar y ejecutar la consulta SQL
-        $insertsql = $conectar->prepare("INSERT INTO formacion(id_formacion,formacion,jornada) VALUES (?, ?, ?)");
-        $insertsql->execute([$ficha, $nombre, $jornada]);
+        // Verificar si la ficha ya existe en la base de datos
+        $validar = $conectar->prepare("SELECT id_formacion FROM formacion WHERE id_formacion = ?");
+        $validar->execute([$ficha]);
+        $fila = $validar->fetch();
 
+        if ($fila) {
+            echo '<script>alert("LA FICHA YA EXISTE");</script>';
+            echo '<script>window.location="crear_formacion.php";</script>';
+        } else {
+            // Preparar y ejecutar la consulta SQL para insertar la nueva ficha
+            $insertsql = $conectar->prepare("INSERT INTO formacion(id_formacion, formacion, jornada) VALUES (?, ?, ?)");
+            $insertsql->execute([$ficha, $nombre, $jornada]);
+            echo '<script>alert("Registro Exitoso");</script>';
+            echo '<script>window.location="lista_formaciones.php";</script>';
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,17 +97,16 @@ if (isset($_POST["registro"]) && $_POST["registro"] == "formu") {
         <div class="container mt-5">
             <h2>Crear Formacion</h2>
             <form method="POST" enctype="multipart/form-data">
-
                 <div class="form-group">
-                    <label for="nombre">Ficha:</label>
-                    <input type="number" class="form-control" id="ficha" name="ficha" required>
+                    <label for="ficha">Ficha:</label>
+                    <input type="text" class="form-control" id="ficha" name="ficha" pattern="\d+" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                 </div>
 
-<div class="form-group">
-    <label for="nombre">Nombre de la formación:</label>
-    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z0-9\s]+" title="El nombre no debe contener caracteres especiales" required>
-    <small>El nombre no debe contener caracteres especiales.</small>
-</div>
+                <div class="form-group">
+                    <label for="nombre">Nombre de la formación:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" pattern="[a-zA-Z\s]+" title="El nombre no debe contener caracteres especiales ni números" required oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
+                    <small>El nombre solo debe contener letras.</small>
+                </div>
 
                 <div class="form-group">
                     <label for="jornada">Jornada:</label>

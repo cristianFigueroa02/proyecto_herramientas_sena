@@ -136,7 +136,7 @@ if (isset($_GET['id'])) {
 
                         <div class="form-group">
                             <label for="gmail">E-mail:</label>
-                            <input type="email" class="form-control" value="<?php echo $nit['gmail']; ?>" id="gmail" name="gmail" required oninput="validateEmail(this)">
+                            <input type="email" class="form-control" value="<?php echo $nit['email']; ?>" id="gmail" name="gmail" required oninput="validateEmail(this)">
                         </div>
 
                         <script>

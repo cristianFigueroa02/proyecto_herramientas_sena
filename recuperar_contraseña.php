@@ -114,7 +114,7 @@ $conectar = $db->conectar();
                                     $stmt->execute();
 
                                     // Enviar la nueva contraseña por correo electrónico
-                                    $mensaje = "Su nueva contraseña es: $nueva_contraseña ingresa aca para cambiarla a tu gusto: https://freefiresal.online/nueva_contraseña.php  recuerda que debes llevar esta nueva contraseña para que puedas actualizarla!";
+                                    $mensaje = "Su nueva contraseña es: $nueva_contraseña ingresa aca para cambiarla a tu gusto: http://localhost/herramientas_sena/nueva_contrase%C3%B1a.php  recuerda que debes llevar esta nueva contraseña para que puedas actualizarla!";
                                      
                                     $asunto = "Recuperación de Contraseña";
                                     $headers = "From: cristianfigueroa@freefiresal.online\r\n";

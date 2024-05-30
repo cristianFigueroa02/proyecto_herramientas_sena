@@ -38,13 +38,13 @@ if ((isset($_POST["registro"])) && ($_POST["registro"] == "formu")) {
     $validar->execute([$codigo_barras, $nombre]);
     $fila1 = $validar->fetch();
 
-    if ($nombre == "" || $tipo == "" || $codigo_barras == "" || $cantidad < 0) {
-        echo '<script> alert ("EXISTEN DATOS VACÍOS O CANTIDAD NEGATIVA");</script>';
+    if ($nombre == "" || $tipo == "" || $codigo_barras == "") {
+        echo '<script> alert ("EXISTEN DATOS VACIOS");</script>';
         echo '<script> window.location="crear_herramientas.php"</script>';
-} else if ($fila1) {
-    echo '<script> alert ("LA HERRAMIENTA YA EXISTE");</script>';
-    echo '<script> window.location= "lista.php"</script>';
-} else {
+    } else if ($fila1) {
+        echo '<script> alert ("LA HERRAMIENTA YA EXISTE");</script>';
+        echo '<script> window.location= "lista.php"</script>';
+    } else {
         $insertsql = $conectar->prepare("INSERT INTO herrramienta(nombre_he, id_cate,img_herramienta, estado, codigo_barras,cantidad,stock) VALUES (?, ?, ?, 'disponible', ?,?,?)");
         $insertsql->execute([$nombre, $tipo, $foto, $codigo_barras, $cantidad, $cantidad]);
         echo '<script>alert ("Registro Exitoso");</script>';

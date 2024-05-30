@@ -128,7 +128,7 @@ if (isset($_POST["MM_insert"]) && $_POST["MM_insert"] == "formreg") {
                             <?php
                             // Integrar resultados de la consulta en el select
                             foreach ($tiposfor as $row) {
-                                echo "<option value='{$row['id_formacion']}'" . ($id_formacion_usuario == $row['id_formacion'] ? 'selected' : '') . ">{$row['formacion']}</option>";
+                                echo "<option value='{$row['id_formacion']}'" . ($id_formacion_usuario == $row['id_formacion'] ? 'selected' : '') . "></option>";
                             }
                             ?>
                         </select>

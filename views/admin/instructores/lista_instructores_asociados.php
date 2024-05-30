@@ -149,7 +149,7 @@ if (isset($_SESSION['documento'])) {
         </table>
 
         <a href="../index.php" class="btn btn-danger">Regresar</a>
-        <a href="exportar_pdf.php" class="btn btn-primary">Generar Reporte</a>
+        <a href="exportar_pdf2.php" class="btn btn-primary">Generar Reporte</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

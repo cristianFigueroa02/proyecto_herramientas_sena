@@ -215,7 +215,7 @@ $tiposfor = $tip_forQuery->fetchAll(PDO::FETCH_ASSOC);
                                     <?php
                                     // Integrar resultados de la consulta en el select
                                     foreach ($tiposfor as $row) {
-                                       echo "<option value='{$row['id_formacion']}'>{$row['formacion']}</option>";
+                                       echo "<option value='{$row['id_formacion']}'></option>";
                                     }
                                     ?>
                                  </select>
